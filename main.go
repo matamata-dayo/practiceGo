@@ -1,33 +1,41 @@
 package main
 
-// func main() {
-// 	cli := natureremo.NewClient(os.Args[1])
-// 	ctx := context.Background()
+import (
+	"context"
+	"log"
+	"os"
 
-// 	applianceName := os.Args[2]
-// 	signalName := os.Args[3]
+	"github.com/tenntenn/natureremo"
+)
 
-// 	as, err := cli.ApplianceService.GetAll(ctx)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
+func main() {
+	cli := natureremo.NewClient(os.Args[1])
+	ctx := context.Background()
 
-// 	var target *natureremo.Appliance
-// 	for _, a := range as {
-// 		if a.Nickname == applianceName {
-// 			target = a
-// 			break
-// 		}
-// 	}
+	applianceName := os.Args[2]
+	signalName := os.Args[3]
 
-// 	if target == nil {
-// 		log.Fatalf("%s not found", applianceName)
-// 	}
+	as, err := cli.ApplianceService.GetAll(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-// 	for _, s := range target.Signals {
-// 		if s.Name == signalName {
-// 			cli.SignalService.Send(ctx, s)
-// 			break
-// 		}
-// 	}
-// }
+	var target *natureremo.Appliance
+	for _, a := range as {
+		if a.Nickname == applianceName {
+			target = a
+			break
+		}
+	}
+
+	if target == nil {
+		log.Fatalf("%s not found", applianceName)
+	}
+
+	for _, s := range target.Signals {
+		if s.Name == signalName {
+			cli.SignalService.Send(ctx, s)
+			break
+		}
+	}
+}
